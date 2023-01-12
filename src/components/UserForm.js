@@ -31,6 +31,7 @@ const UserForm = styled.div`
     font-size: 20px;
     color: #fff;
     background-color: #008cba;
+    margin-top: 10px;
   }
 `;
 
