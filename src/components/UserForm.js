@@ -1,50 +1,54 @@
-import styled from "styled-components";
+import React, { useState } from "react";
+import Notification from "./Notification";
+import "./UserForm.css";
 
-const UserForm = styled.div`
-  color: #111;
-  font-weight: bold;
-  width: 550px;
-  background-color: transparant;
-  border-radius: 7px;
-  box-shadow: 0px 0px 11px -3px rgba(45, 102, 230, 1);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
+function UserForm(props) {
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [error, setErrorMessage] = useState();
 
-  & label {
-    font-size: 20px;
-  }
+  const nameHandler = (e) => {
+    setName(e.target.value);
+  };
 
-  & input {
-    margin: 10px 0;
-    outline: none;
-    border: 1px solid #111;
-    border-radius: 4px;
-    padding: 10px;
-    width: 100%;
-  }
+  const ageHandler = (e) => {
+    setAge(e.target.value);
+  };
 
-  & button {
-    cursor: pointer;
-    border: none;
-    padding: 10px 20px;
-    font-size: 20px;
-    color: #fff;
-    background-color: #008cba;
-    margin-top: 10px;
-  }
-`;
+  const submitHandler = (e) => {
+    e.preventDefault();
 
-// function UserForm() {
-//   return (
-//     <div>
-//       <label>Username</label>
-//       <input type="text" />
-//       <label>Age</label>
-//       <input type="number" />
-//       <button>Add User</button>
-//     </div>
-//   );
-// }
+    if (name.trim().length === 0 || age.trim().length === 0) {
+      setErrorMessage({
+        title: "Invalid input",
+        message: "Please enter a valid input (name or age)",
+      });
+      return;
+    }
+
+    const usersData = {
+      name: name,
+      age: age,
+    };
+
+    props.onGetProps(usersData);
+
+    setName("");
+    setAge("");
+  };
+
+  return (
+    <>
+      {error && <Notification title={error.title} message={error.message} />}
+      <form onSubmit={submitHandler}>
+        <label>Username</label>
+        <input onChange={nameHandler} type="text" value={name} />
+        <label>Age</label>
+        <input onChange={ageHandler} type="number" value={age} />
+        <button type="submit">Add User</button>
+      </form>
+    </>
+  );
+}
 
 export default UserForm;
