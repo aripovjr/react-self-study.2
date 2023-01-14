@@ -22,6 +22,7 @@ function UserForm(props) {
       setErrorMessage({
         title: "Invalid input",
         message: "Please enter a valid input (name or age)",
+        error: true,
       });
       return;
     }
@@ -37,9 +38,19 @@ function UserForm(props) {
     setAge("");
   };
 
+  const closeMessage = () => {
+    setErrorMessage(null);
+  };
+
   return (
     <>
-      {error && <Notification title={error.title} message={error.message} />}
+      {error && (
+        <Notification
+          onConfirm={closeMessage}
+          title={error.title}
+          message={error.message}
+        />
+      )}
       <form onSubmit={submitHandler}>
         <label>Username</label>
         <input onChange={nameHandler} type="text" value={name} />
